@@ -1,85 +1,56 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-
+import Nav from '../components/Nav'
+import Theme from '../components/Theme'
+import { useState } from 'react'
+import About from '../components/windows/About'
+import Contact from '../components/windows/Contact'
+import Portfolio from '../components/windows/Portfolio'
+import { AnimatePresence } from 'framer-motion'
 const Home: NextPage = () => {
+  const [showAbout, setShowAbout] = useState<boolean>(false);
+  const [showPortfolio, setShowPortfolio] = useState<boolean>(false);
+  const [showContact, setShowContact] = useState<boolean>(false);
+  const [active, setActive] = useState<string>();
+  const toggleWindow = (window: string) => {
+    if (window === "about") {
+      setShowAbout(!showAbout);
+      setActive("about");
+    } else if (window === "contact") {
+      setShowContact(!showContact);
+      setActive("contact");
+    } else if (window === "portfolio") {
+      setShowPortfolio(!showPortfolio);
+      setActive("portfolio");
+    }
+  }
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com"/> 
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <div className="h-screen w-screen bg-gradient-to-t from-blue-500 to-blue-300 dark:from-[#0B1B43] dark:to-black flex justify-center items-center transition-colors">
+        <Theme />
+          <AnimatePresence>
+            {showAbout && <About activate={() => setActive("about")} close={() => toggleWindow("about")} active={active}/>}
+            </AnimatePresence>
+            <AnimatePresence>
+            {showPortfolio && <Portfolio activate={() => setActive("portfolio")}  close={() => toggleWindow("portfolio")} active={active}/>}
+            </AnimatePresence>
+            <AnimatePresence>
+            {showContact && <Contact activate={() => setActive("contact")}  close={() => toggleWindow("contact")} active={active}/>}
+          </AnimatePresence>
+        <div className='flex items-startn flex-col font-semibold text-white opacity-60 pointer-events-none'>
+          <h1 className='text-9xl py-5'>Shaan</h1>
+          <h1 className='text-9xl py-5'>Thakker</h1>
+          <h2 className='text-7xl py-5'>developer & composer</h2>
         </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
+        <Nav openWin={toggleWindow} />
+      </div>
+    </>
   )
 }
 
