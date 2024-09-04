@@ -46,7 +46,7 @@ const Home: NextPage = () => {
         <div className='flex items-startn flex-col font-semibold text-white opacity-60 pointer-events-none'>
           <h1 className='text-9xl py-5'>Shaan</h1>
           <h1 className='text-9xl py-5'>Thakker</h1>
-          <h2 className='text-7xl py-5'>developer & composer</h2>
+          <h2 className='text-7xl py-5'>developer</h2>
         </div>
         <Nav openWin={toggleWindow} />
       </div>
